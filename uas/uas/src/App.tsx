@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import { IonApp, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenu, IonMenuToggle, IonRouterOutlet, IonTitle, IonToggle, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 
@@ -21,22 +21,55 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { person, flash, time, settings } from 'ionicons/icons';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
+    <IonMenu contentId="main">
+          <IonHeader className="ion-padding">
+            <IonIcon icon={} />
+          </IonHeader>
+          <IonContent>
+            <IonList>
+              <IonMenuToggle>
+                <IonItem button routerLink="/profile">
+                  <IonIcon icon={person} size="large"/>
+                  <IonLabel className='menu'>Profile</IonLabel>
+                </IonItem>
+                <IonItem button routerLink="/new">
+                  <IonIcon icon={flash}size="large" />
+                  <IonLabel className='menu'>What's new</IonLabel>
+                </IonItem>
+                <IonItem button routerLink="/history">
+                  <IonIcon icon={time}size="large" />
+                  <IonLabel className='menu'>Listening history</IonLabel>
+                </IonItem>
+                <IonItem button routerLink="/setting">
+                  <IonIcon icon={settings} size="large"/>
+                  <IonLabel className='menu'>Settings and privacy</IonLabel>
+                </IonItem>
+              </IonMenuToggle>
+            </IonList>
+          </IonContent>
+        </IonMenu>
       <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
+        <IonRouterOutlet id="main">
+          <Route exact path="/home" component={Home} />
+          <Redirect exact path="/" to="/home" />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/history" component={History} />
+          <Route exact path="/music" component={Music} />
+          <Route exact path="/podcast" component={Podcast} />
+          <Route path="/music/:musicId" component={MusicDetail} />
+          <Route path="/podcast/:podcastId" component={PodcastDetail} />
+        </IonRouterOutlet>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );
 
 export default App;
+
